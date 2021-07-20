@@ -9,15 +9,15 @@ void OLED_Data(char *DATA) /* Function for sending data to OLED */
 {
   int len = strlen(DATA);
   for (int g=0; g<len; g++)
-  {    
+  {
     for (int index=0; index<5; index++)
-    {     
+    {
       Wire.beginTransmission(OLED_Write_Address); /* Begin transmission to slave device */
     /* Queue data to be transmitted */
-      Wire.write(0x40); /* For Data Transmission, C = 0 and D/C = 1 */ 
-      Wire.write(ASCII[DATA[g] - 0x20][index]); 
-      Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */ 
-    }    
+      Wire.write(0x40); /* For Data Transmission, C = 0 and D/C = 1 */
+      Wire.write(ASCII[DATA[g] - 0x20][index]);
+      Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */
+    }
   }
 }
 
@@ -25,33 +25,33 @@ void OLED_Command(char DATA) /* Function for sending command to OLED */
 {
   Wire.beginTransmission(OLED_Write_Address); /* Begin transmission to slave device */
   /* Queue data to be transmitted */
-  Wire.write(0x00); /* For Data Transmission, C = 0 and D/C = 0 */ 
-  Wire.write(DATA); 
+  Wire.write(0x00); /* For Data Transmission, C = 0 and D/C = 0 */
+  Wire.write(DATA);
   Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */
 }
 
-void OLED_clear(void) /* Function for clearing OLED */   
+void OLED_clear(void) /* Function for clearing OLED */
 {
   OLED_setXY(0x00, 0x7F, 0x00, 0x07); /* Column Start Address 0, Column End Address 127, Page Start Address 0, Page End Address 7  */
   for (int k=0; k<=1023; k++)
   {
     Wire.beginTransmission(OLED_Write_Address); /* Begin transmission to slave device */
   /* Queue data to be transmitted */
-    Wire.write(0x40); /* For Data Transmission, C = 0 and D/C = 1 */ 
-    Wire.write(0x00); 
-    Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */  
-  }  
+    Wire.write(0x40); /* For Data Transmission, C = 0 and D/C = 1 */
+    Wire.write(0x00);
+    Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */
+  }
 }
 
-void OLED_setXY(char col_start, char col_end, char page_start, char page_end) /* Function for setting cursor for writing data */  
+void OLED_setXY(char col_start, char col_end, char page_start, char page_end) /* Function for setting cursor for writing data */
 {
   Wire.beginTransmission(OLED_Write_Address); /* Begin transmission to slave device */
   /* Queue data to be transmitted */
   Wire.write(0x00); /* For Data Transmission, C = 0 and D/C = 0 */
-  Wire.write(0x21); /* Set Column Start and End Address */ 
+  Wire.write(0x21); /* Set Column Start and End Address */
   Wire.write(col_start); /* Column Start Address col_start */
   Wire.write(col_end); /* Column End Address col_end */
-  Wire.write(0x22); /* Set Page Start and End Address */ 
+  Wire.write(0x22); /* Set Page Start and End Address */
   Wire.write(page_start); /* Page Start Address page_start */
   Wire.write(page_end); /* Page End Address page_end */
   Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */
@@ -89,22 +89,22 @@ void OLED_init(void) /* Function for initializing OLED */
 
 void OLED_image(const unsigned char *image_data)   /* Function for sending image data to OLED */
 {
-  OLED_setXY(0x00, 0x7F, 0x00, 0x07);    
+  OLED_setXY(0x00, 0x7F, 0x00, 0x07);
   for (int k=0; k<=1023; k++)
-  {    
+  {
     Wire.beginTransmission(OLED_Write_Address); /* Begin transmission to slave device */
   /* Queue data to be transmitted */
     Wire.write(0x40); /* For Data Transmission, C = 0 and D/C = 1 */
     Wire.write(image_data[k]);
-    Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */ 
-  }   
+    Wire.endTransmission(); /* Transmit the queued bytes and end transmission to slave device */
+  }
 }
 
 
 void setup() {
   Wire.begin(); /* Initiate wire library and join I2C bus as a master */
   OLED_init(); /* Initialize OLED */
-  delay(100);  
+  delay(100);
   OLED_clear(); /* Clear OLED */
   delay(1000);
   OLED_image(Launchpad_Logo);
@@ -116,10 +116,10 @@ void setup() {
   OLED_setXY(0x36, 0x7F, 0x04, 0x03);
   OLED_Data("Demo");
   OLED_setXY(0x00, 0x7F, 0x00, 0x07);
-  delay(2000); 
+  delay(2000);
 }
 
-void loop() {      
+void loop() {
   OLED_image(Smiley_1);
   delay(200);
   OLED_image(Smiley_2);
