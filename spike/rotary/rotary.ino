@@ -10,8 +10,8 @@
 
 #define ENC_PIN_A 5
 #define ENC_PIN_B 4
+#define MOTOR_PIN 13
 
-#define MOTOR 13
 #define STEP 8
 
 bool enc_a_raised = false;
@@ -22,11 +22,11 @@ int value = 0;
 void rotary_init() {
   pinMode(LED_A, OUTPUT);
   pinMode(LED_B, OUTPUT);
-  pinMode(MOTOR, OUTPUT);
+  pinMode(MOTOR_PIN, OUTPUT);
 
   digitalWrite(LED_A, LOW);
   digitalWrite(LED_B, LOW);
-  digitalWrite(MOTOR, LOW);
+  digitalWrite(MOTOR_PIN, LOW);
 
   pinMode(ENC_PIN_A, INPUT_PULLUP);
   pinMode(ENC_PIN_B, INPUT_PULLUP);
@@ -73,22 +73,22 @@ void ISR_encode_b(){
 void increase_value() {
   digitalWrite(LED_A, HIGH);
   digitalWrite(LED_B, LOW);
-  digitalWrite(MOTOR, HIGH);
+  digitalWrite(MOTOR_PIN, HIGH);
   if (value < 256) {
     value += STEP;
   }
-  analogWrite(MOTOR, value);
+  analogWrite(MOTOR_PIN, value);
   showValue(value);
 }
 
 void decrease_value() {
   digitalWrite(LED_B, HIGH);
   digitalWrite(LED_A, LOW);
-  digitalWrite(MOTOR, LOW);
+  digitalWrite(MOTOR_PIN, LOW);
   if (value > 0) {
     value -= STEP;
   }
-  analogWrite(MOTOR, value);
+  analogWrite(MOTOR_PIN, value);
   showValue(value);
 }
 
