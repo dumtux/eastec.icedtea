@@ -19,7 +19,7 @@
 #define DRV_1  12
 #define DRV_2  13
 
-#define STEP 8
+#define STEP 1
 
 
 bool enc_a_raised = false;
@@ -46,43 +46,18 @@ void rotary_init() {
     pinMode(ROT_B, INPUT_PULLUP);
     pinMode(ROT_D, INPUT_PULLUP);
     attachInterrupt(ROT_A, ISR_encode_a, CHANGE);
-    attachInterrupt(ROT_B, ISR_encode_b, CHANGE);
     attachInterrupt(ROT_D, ISR_encode_d, FALLING);
 }
 
 void ISR_encode_a(){
-    if (digitalRead(ENC_PIN_A) == HIGH) {
-        enc_a_raised = true;
-        if (enc_b_raised == true) {
-            decrease_value();
-        } else {
-            increase_value();
-        }
-    } else {
-        enc_a_raised = false;
-        if (enc_b_raised == false) {
-            decrease_value();
-        } else {
-            increase_value();
-        }
-    }
-}
-
-void ISR_encode_b(){
-    if (digitalRead(ENC_PIN_B) == HIGH) {
-        enc_b_raised = true;
-        if (enc_a_raised == true) {
-            increase_value();
-        } else {
-            decrease_value();
-        }
-    } else {
-        enc_b_raised = false;
-        if (enc_a_raised == false) {
-            increase_value();
-        } else {
-            decrease_value();
-        }
+    if (digitalRead(ROT_A) == HIGH && digitalRead(ROT_B) == HIGH) {
+        decrease_value();
+    } else if (digitalRead(ROT_A) == HIGH && digitalRead(ROT_B) == LOW) {
+        increase_value();
+    } else if (digitalRead(ROT_A) == LOW && digitalRead(ROT_B) == HIGH) {
+        increase_value();
+    } else if (digitalRead(ROT_A) == LOW && digitalRead(ROT_B) == LOW) {
+        decrease_value();
     }
 }
 
