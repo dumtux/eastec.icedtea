@@ -11,10 +11,19 @@ TX                 | 7
 RTS                | 17
 DTR                | 16
 
-> Important: USB-UART converter's TX pin should not wired to 4, RX of MSP430. For BSL, pin 7 (p1.5 SCLK) should be used.
+> IMPORTANT: USB-UART converter's TX pin should not wired to 4, RX of MSP430. For BSL, pin 7 (p1.5 SCLK) should be used.
 
 
 ## Software
+
+Install ```mspdebug``` and use,
+
+```sh
+sudo apt install mspdebug
+mspdebug rom-bsl -d /dev/ttyUSB0 "prog path/to/hexfile"
+```
+
+Or use the following script.
 
 ```py
 #!/usr/bin/env python
@@ -80,3 +89,7 @@ os.system(command)
 # Reset chip
 reset()
 ```
+
+---
+
+* Last updated on Nov 3rd, 2021
