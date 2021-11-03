@@ -70,7 +70,7 @@ void increase_value() {
         value += STEP;
     }
    analogWrite(DRV_2, value);
-    showValue(value);
+//    showValue(value);
 }
 
 void decrease_value() {
@@ -78,7 +78,7 @@ void decrease_value() {
         value -= STEP;
     }
    analogWrite(DRV_2, value);
-    showValue(value);
+//    showValue(value);
 }
 
 void showValue(int v) {
@@ -192,6 +192,6 @@ void setup() {
 }
 
 void loop() {
-//  showValue(value);
-//  delay(1000);
+  showValue(value);
+  delay(1000);
 }
